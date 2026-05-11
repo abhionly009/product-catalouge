@@ -2,13 +2,14 @@ package com.agh.product_catalouge.controller;
 
 import com.agh.product_catalouge.entity.Product;
 import com.agh.product_catalouge.service.ProductService;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/product")
 public class ProductController {
 
@@ -45,4 +46,16 @@ public class ProductController {
 
     }
 
+
+
+    @GetMapping("/collection")
+    public Page<Product> getProductWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+            ){
+       return productService.getProductsWithPage(page,size,sortBy,direction);
+
+    }
 }

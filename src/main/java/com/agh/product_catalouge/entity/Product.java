@@ -20,6 +20,7 @@ public class Product {
 
     private long discount;
 
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     public Product() {
