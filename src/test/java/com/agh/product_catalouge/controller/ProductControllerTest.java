@@ -36,9 +36,6 @@ class ProductControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-//    ProductControllerTest(ProductService productService) {
-//        this.productService = productService;
-//    }
 
 
     @Test
@@ -48,7 +45,6 @@ class ProductControllerTest {
 
         when(productService.addProduct(any(ProductDTOV1.class)))
                 .thenReturn(product);
-
 
         mockMvc.perform(post("/api/product/add").
                 contentType(MediaType.APPLICATION_JSON)
