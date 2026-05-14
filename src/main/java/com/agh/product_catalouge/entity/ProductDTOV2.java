@@ -1,22 +1,24 @@
 package com.agh.product_catalouge.entity;
 
 import com.agh.product_catalouge.model.Category;
-
-import java.math.BigDecimal;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTOV2 {
 
 
+    @NotBlank(message = "Product name should be there")
+    @Size(min = 3, max = 40)
+    private String productName;
 
-        private String productName;
+    @NotBlank(message = "Product description must be there")
+    private String description;
 
-        private String description;
+    private long  price;
 
-       private long  price;
+    private long discount;
 
-        private long discount;
-
-        private Category category;
+    private Category category;
 
 
     public ProductDTOV2() {

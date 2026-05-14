@@ -1,52 +1,54 @@
 package com.agh.product_catalouge;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpServerErrorException;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGeneral(Exception ex){
+    @ExceptionHandler
+    public ResponseEntity <Map<String,Object>> handleValidationException(MethodArgumentNotValidException ex){
 
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Something went wrong");
-    }
+        Map<String, Object> errorMaps = new HashMap<>();
 
-    @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
-    public ResponseEntity<String> handleInternalServerError(HttpServerErrorException.InternalServerError exception){
-       return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Something went wrong");
-    }
-
-    @ExceptionHandler(ArithmeticException.class)
-    public ResponseEntity<String> handleArithmeticException(ArithmeticException e){
-        return  ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Something went wrong");
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,String>> handleValidationException(MethodArgumentNotValidException e){
-        Map<String, String> errors = new HashMap<>();
-
-        e.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.put(error.getField(), error.getDefaultMessage());
-        });
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errorMaps.put(error.getField(), error.getDefaultMessage())
+        );
 
         Map<String, Object> response = new HashMap<>();
-        response.put("status", 400);
-        response.put("errors", errors);
-        return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.BAD_REQUEST.value());
+        response.put("errors", errorMaps);
+
+        return ResponseEntity.badRequest().body(response);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> handleConstraintViolation(ConstraintViolationException ex) {
+
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(error ->
+                errors.put("id", error.getMessage())
+        );
+        return ResponseEntity.badRequest().body(errors);
+
+    }
+
+
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleException(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+
 
 }

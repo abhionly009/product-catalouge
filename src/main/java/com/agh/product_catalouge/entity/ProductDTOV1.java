@@ -1,12 +1,19 @@
 package com.agh.product_catalouge.entity;
 
 import com.agh.product_catalouge.model.Category;
+import jakarta.validation.constraints.*;
 
 public class ProductDTOV1 {
 
+    @NotBlank(message = "Name is required")
+    @Size(min = 3, max = 40)
     private String name;
-     private Long price;
-     private Category category;
+
+    @NotNull(message = "Price must be there")
+    @Positive(message = "Price of product should be positive")
+    private Long price;
+
+    private Category category;
 
     public long getDiscount() {
         return discount;
@@ -16,7 +23,10 @@ public class ProductDTOV1 {
         this.discount = discount;
     }
 
-    private   long discount;
+    @Positive(message = "Discount should be positive")
+    private long discount;
+
+    @NotBlank(message = "Brand must be there")
     private String brand;
 
     public String getDescription() {
@@ -27,6 +37,8 @@ public class ProductDTOV1 {
         this.description = description;
     }
 
+    @NotBlank(message = "Description of product must be available")
+    @Size(min = 10, max = 500)
     private String description;
 
     public ProductDTOV1() {
