@@ -4,6 +4,8 @@ import com.agh.product_catalouge.entity.Product;
 import com.agh.product_catalouge.entity.ProductDTOV2;
 import com.agh.product_catalouge.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +19,9 @@ public class ProductControllerV2 {
     @Autowired
     ProductService productService;
     @PostMapping("/add")
-    public Product createProduct(@RequestBody ProductDTOV2 product){
-        return productService.addProductOfDTO2(product);
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDTOV2 product){
+        Product savedProduct = productService.addProductOfDTO2(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
     }
 
 }
