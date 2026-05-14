@@ -1,6 +1,7 @@
 package com.agh.product_catalouge.controller;
 
 import com.agh.product_catalouge.entity.Product;
+import com.agh.product_catalouge.entity.ProductDTOV1;
 import com.agh.product_catalouge.service.ProductService;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public class ProductController {
 
 
     @PostMapping("/add")
-    public Product createProduct(@RequestBody Product product){
+    public Product createProduct(@RequestBody ProductDTOV1 product){
         return productService.addProduct(product);
     }
 
@@ -45,8 +46,6 @@ public class ProductController {
        return productService.getProductDetails(id);
 
     }
-
-
 
     @GetMapping("/collection")
     public Page<Product> getProductWithPagination(

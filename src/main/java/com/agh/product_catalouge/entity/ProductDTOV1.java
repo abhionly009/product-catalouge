@@ -1,12 +1,33 @@
 package com.agh.product_catalouge.entity;
 
+import com.agh.product_catalouge.model.Category;
+
 public class ProductDTOV1 {
 
     private String name;
-     private Double price;
-     private String category;
-    private   Double rating;
+     private Long price;
+     private Category category;
+
+    public long getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(long discount) {
+        this.discount = discount;
+    }
+
+    private   long discount;
     private String brand;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private String description;
 
     public ProductDTOV1() {
     }
@@ -19,29 +40,22 @@ public class ProductDTOV1 {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
 
     public String getBrand() {
         return brand;

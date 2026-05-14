@@ -1,9 +1,9 @@
 package com.agh.product_catalouge.controller;
 
 import com.agh.product_catalouge.entity.Product;
+import com.agh.product_catalouge.entity.ProductDTOV1;
 import com.agh.product_catalouge.model.Category;
 import com.agh.product_catalouge.service.ProductService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ class ProductControllerTest {
 
         Product product = new Product("abc",123L,"shoes",12L, Category.FASHION);
 
-        when(productService.addProduct(any(Product.class)))
+        when(productService.addProduct(any(ProductDTOV1.class)))
                 .thenReturn(product);
 
 
