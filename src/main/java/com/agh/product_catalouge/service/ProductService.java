@@ -1,6 +1,7 @@
 package com.agh.product_catalouge.service;
 
 import com.agh.product_catalouge.entity.Product;
+import com.agh.product_catalouge.entity.ProductDTOV1;
 import com.agh.product_catalouge.entity.ProductDTOV2;
 import com.agh.product_catalouge.repository.ProductRepository;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,13 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product addProduct(Product product){
+    public Product addProduct(ProductDTOV1 productDto){
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setCategory(productDto.getCategory());
+        product.setPrice(productDto.getPrice());
+        product.setDiscount(productDto.getDiscount());
         return productRepository.save(product);
     }
 
